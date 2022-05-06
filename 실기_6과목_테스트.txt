@@ -166,3 +166,23 @@
   = 2. 느슨한 결합 (Loosely Coupled)
     -> 인터페이스 클래스 이용, 추상화된 자료 구조, 메소드 구현, 클래스 의존성 최소화
 
+- 4. 소스 코드 품질 분석 도구
+  = 1. 코딩 스타일, 코드 표준, 코드 복잡도, 메모리 누수 현상
+  = 2. 스레드 결함 등을 발견하기 위해 사용하는 분석 도구
+  = 3. 정적 분석 도구
+    -> 1. 소스 코드 실행 X, 코딩 표준, 코딩 스타일, 결함 확인하는 코드 분석 도구
+    -> 2. pmd, cppcheck, SonarQube, checkstyle, ccm, cobertura
+
+  = 4. 동적 분석 도구
+    -> 1. 소스 코드 실행 O, 메모리 누수, 스레드 결함 분석하는 도구
+    -> 2. Avalanche, Valgrind
+
+- 5. 소스 코드 품질 분석 도구의 종류
+  = 1. pmd - 미사용 변수, 최적화 X, 결함 유발 코드 검사 -> Linux, Windows
+  = 2. cppcheck - C/C++ 메모리 누수, 오버플로우 -> Windows
+  = 3. SonarQube - 중복 코드, 복잡도, 코딩 설계, 분석 통합 플랫폼 -> Cross-Platform
+  = 4. checkstyle - 자바 코드, 코드 표준, 다양한 개발 도구 통합사용 -> Cross-Platform
+  = 5. com - 다양한 언어 코드 복잡도 분석 -> Cross-Platform
+  = 6. cobertura - Java, 소스 코드 복잡도, 테스트 커버리지 -> Cross-Platform
+  = 7. Avalanche - Valgrind Framework, STP 기반, 결함, 취약점 -> Linux, Windows
+  = 8. Valgrind - 메모리 및 쓰레드 결함 분석 -> Cross-Platform
