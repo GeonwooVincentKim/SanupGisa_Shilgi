@@ -130,3 +130,11 @@ SELECT a.코드, 이름, 동아리명 FROM 사원 a LEFT OUTER JOIN
 동아리 B LEFT OUTER JOIN a.코드 = b.동아리 b
 ON a.코드 = b.코드
 
+
+<데이터사전>
+데이터 사전
+
+메타 데이터
+
+USE, VIEWS
+
