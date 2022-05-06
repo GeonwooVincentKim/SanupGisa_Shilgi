@@ -1,0 +1,121 @@
+V. SQL 활용
+
+1. SQL - DDL
+- 1. DDL (Data Define Language)
+  = 1. 정의 -> DB 를 구축하거나 수정할 목적으로 사용하는 언어
+  = 2. 종류
+    -> CREATE, ALTER, DROP
+
+- 2. CREATE SCHEMA
+  = 1. 정의 -> 스키마를 정의하는 명령문
+  = 2. 표기 형식 -> CREATE SCHEMA 스키마명 AUTHORIZATION 사용자_id;
+  = 3. 예시
+    -> 1. 소유권자의 사용자 ID 가'홍길동'인 스키마 '대학교'를 정의하는 SQL 문
+    -> 2. CREATE SCHEMA 대학교 AUTHORIZATION 홍길동;
+
+- 3. CREATE DOMAIN
+  = 1. 정의 -> 도메인을 정의하는 명령문
+  = 2. CREATE DOMAIN 도메인명 [AS] 데이터_타입
+             [DEFAULT 기본값]
+	     [CONSTRAINT 제약조건명 CHECK (범위값)];
+  
+  = 3.예시
+    -> 1. '성별'을 '남' or '여' 처럼 정해진 1개의 문자로 표현되는 도메인 GENDER 를 정의하는 SQL문
+    -> 2. CREATE DOMAIN GENDER CHAR(1)
+             DEFAULT '남'
+             CONSTRAINT VALID-GENDER CHECK(VALUE IN ('남','여'));
+
+- 4. CREATE TABLE
+  = 1. 정의 -> 테이블을 정의하는 명령문
+  = 2. CREATE TABLE 테이블명
+		(속성명 데이터_타입 [DEFAULT 기본값] [NOT NULL], ,,,
+		[, PRIMARY KEY(기본키_속성명, ...)]
+		[, UNIQUE(대체키_속성명, ...)]
+		[, FOREIGN KEY(외래키_속성명, ...)]
+			REFERENCES 참조테이블(기본키_속성명, ...)]
+			[ON DELETE 옵션]
+			[ON UPDATE 옵션]
+		[, CONSTRAINT 제약조건명][CHECK (조건식)]);
+
+  = 3. PRIMARY KEY -> 기본키로 사용할 속성
+  = 4. UNIQUE -> 대체키로 사용할 속성, 중복된 값 가질 수 없음
+  = 5. FOREIGN KEY ~ REFERENCES ~ -> 외래키로 사용할 속성 지정
+    -> 1. ON DELETE 옵션 => 참조 테이블 튜플 삭제, 기본 테이블에 취해야 할 사항 지정
+    -> 2. ON UPDATE 옵션 => 참조 테이블 참조 속성 값 변경, 기본 테이블 취해야 할 사항 지정
+
+  = 6. CONSTRAINT -> 제약 조건 이름 지정
+  = 7. CHECK -> 속성 값에 대한 제약 조건 정의
+
+  = 8. 예시 (ON DELETE ON UPDATE 부분만)
+    -> FOREIGN KEY(항목) REFERENCES 항목2(항목2코드)
+	 ON DELETE SET NULL
+	 ON UPDATE CASCADE
+
+       CONSTRAINT 항목3제약
+	 CHECK(항목)='조건식';
+
+- 5. CREATE VIEW
+  = 1. 정의 -> View 를 정의하는 명령문
+  = 2. 표기 형식 -> CREATE VIEW 뷰명[속성명[, 속성명, ...])]
+		    AS SELECT 문;
+
+  = 3. 예시
+    -> 1. 고객 테이블에서 '주소'가 '안산시'인 고객들의 '성명', '전화번호'를 '안산고객'이라는 뷰로 정의
+    -> 2. CREATE VIEW 안산고객(성명, 전화번호)
+	  AS SELECT 성명, 전화번호
+	  FROM 고객
+	  WHERE 주소 = '안산시';
+
+- 6. CREATE INDEX
+  = 1. 정의 -> Index 를 정의하는 명령문
+  = 2. 표기 형식 -> CREATE [UNIQUE] INDEX 인덱스명
+		    ON 테이블명(속성명 [ASC | DESC] [,속성명[ASC | DESC]])
+		    [CLUSTER];
+
+  = 3. UNIQUE
+    -> 1. 사용 된 경우 => 중복 값 없는 속성, 인덱스 생성
+    -> 2. 생략 된 경우 => 중복 값 허용하는 속성, 인덱스 생성
+
+  = 4. 정렬 여부 지정
+    -> 1. ASC => 오름차순 지정
+    -> 2. DESC => 내림차순 정렬
+  
+  = 5. CLUSTER -> 사용하면 Index 가 클러스터드 Index 로 설정됨
+  = 6. 예시
+    -> 1. 고객 테이블에서 UNIQUE 한 특성을 갖는 '고객번호' 속성에 대해 내림차순으로 정렬하여 '고객번호_idx' 라는 이름으로 인덱스를 정의
+    -> 2. CREATE UNIQUE INDEX 고객번호_idx
+	  ON 고객(고객번호) DESC;
+
+- 7. ALTER TABLE
+  = 1. 정의 -> Table 에 대한 정의를 변경하는 명령문
+  = 2. 표기 형식
+    -> 1. ALTER TABLE 테이블명 ADD 속성명 데이터_타입 [DEFAULT '기본값'];
+    -> 2. ALTER TABLE 테이블명 ALTER 속성명 [SET DEFAULT '기본값'];
+    -> 3. ALTER TABLE 테이블명 DROP COLUMN 속성명 [CASCADE];
+
+  = 3. ADD -> 새로운 속성(열) 추가 시, 사용
+  = 4. ALTER -> 특정 속성의 Default 값 변경 시 사용
+  = 5. DROP COLUMN -> 특정 속성 삭제 시, 사용
+  = 6. 예시
+    -> 1. 학생 테이블에 최대 3문자로 구성되는 '학년' 속성 추가하시오
+       => ALTER TABLE 학생 ADD 학년 VARCHAR(3);
+
+    -> 2. 학생 테이블의 '학번' Field 와 Data Type 과 크기를 VARCHAR(10)으로 하고, NULL 값 입력되지 않도록 변경
+       => ALTER TABLE 학생 ALTER 학번 VARCHAR(10) NOT NULL;
+
+- 8. DROP
+  = 1. 정의 -> Schema, Domain, Table, View Table, Index, 제약 조건 등을 제거하는 명령문
+  = 2. 표기 형식
+    -> 1. DROP SCHEMA 스키마명 [CASCADE | RESTRICT];
+    -> 2. DROP DOMAIN 도메인명 [CASCADE | RESTRICT];
+    -> 3. DROP TABLE 테이블명 [CASCADE | RESTRICT];
+    -> 4. DROP VIEW 뷰명 [CASCADE | RESTRICT];
+    -> 5. DROP INDEX 인덱스명 [CASCADE | RESTRICT];
+    -> 6. DROP CONSTRAINT 제약조건명;
+
+  = 3. CASCADE -> 제거할 요소를 참조하는 다른 모든 개체를 함께 제거
+  = 4. RESTRICT -> 다른 개체가 제거할 요소를 참조 중일 때는 제거 취소
+  = 5. 예시
+    -> 1. 학생 테이블을 제거하되, 학생 테이블을 참조하는 모든 데이터를 함께 제거
+    -> 2. DROP TABLE 학생 CASCADE;
+
