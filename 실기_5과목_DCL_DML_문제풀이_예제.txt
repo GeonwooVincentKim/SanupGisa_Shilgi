@@ -1,0 +1,32 @@
+<Grant & Revoke & Commit & Rollback 예제>
+GRANT ALL ON 학과 TO NAVI WITH GRANT OPTION;
+
+GRANT DELETE ON 강좌 TO 김하늘 WITH GRANT OPTION;
+
+REVOKE GRANT OPTION FOR SELECT, INSERT, DELETE ON 교수 FROM 임꺽정;
+
+REVOKE GRANT OPTION FOR UPDATE ON 수강 FROM 임꺽정 CASCADE;
+
+COMMIT -> 트랜잭션이 수행한 내용을 DB 에 반영하는 명령
+
+ROLLBACK TO P1;
+
+
+<Select & Insert & Update & Delete 예제>
+DELETE FROM 학생 WHERE 이름 = '민수';
+
+INSERT INTO 학생
+(학번, 성명, 학년, 과목, 연락처)
+VALUES
+(98170823, '한국산', 3, '경엉학개론', '?-1234-1234');
+
+DELETE FROM 학생 WHERE 이름 = 'Scott';
+
+UPDATE 사원
+SET 연봉 = 연봉 + 10000 AND 직급 = '차장';
+
+UPDATE 학부생
+SET 학과번호 = 999
+WHERE 입학생수 >= 300;
+
+insert, update, select, delete
