@@ -74,3 +74,59 @@ SELECT 사원명 FROM 회사원 WHERE 연락번호 IS NOT NULL;
 
 
 <DML - SELECT 2>
+SELECT 학과, COUNT(*) AS 학과별튜플수
+FROM 학생
+GROUP BY 학과
+
+SELECT 과목이름, MIN(점수) AS 최소점수, MAX(점수) AS 최대점수
+FROM 성적
+GROUP BY 과목이름
+HAVING COUNT(점수) >= 90;
+
+SELECT 이름, 전공, 신청과목
+FROM 학생정보, 신청정보
+WHERE 학생정보.학번 = 신청정보.학번
+AND 신청과목 = "JAVA"
+GROUP BY 이름, 전공, 신청과목
+HAVING 전공 = '컴퓨터공학'
+
+1
+
+SELECT SUM(psale) from Sale
+where pid IN (select id from Product where name like 'USB%');
+
+SELECT 소속도시, AVG(매출액)
+FROM 지점정보 WHERE 매출액 > 1000
+GROUP BY 소속도시
+HAVING COUNT(*) >= 3;
+
+select 장학내역, 장학금,
+ROW_NUMBER() OVER (PARTITION BY 장학내역 ORDER BY 장학금 DESC) AS NUM
+FROM 장학금;
+
+SELECT 학과, 장학내역, SUM(장학금) AS 장학금합계
+FROM 장학금
+GROUP BY ROLLUP(학과, 장학내역);
+
+
+<JOIN>
+join
+
+-----
+SELECT 학번, 이름, 학과코드, 컴퓨터
+FROM 학생, 학과
+WHERE 학생.학과코드 = 학과.학과코드
+
+SELECT 학번, 이름, 학과코드, 컴퓨터
+FROM 학생, 학과
+WHERE 학생.학과코드 NATURAL JOIN 학과.학과코드
+
+SELECT 학번, 이름, 학과코드, 컴퓨터
+FROM 학생, 학과
+WHERE 학생 JOIN 학과 USING (학과코드);
+-----
+
+SELECT a.코드, 이름, 동아리명 FROM 사원 a LEFT OUTER JOIN
+동아리 B LEFT OUTER JOIN a.코드 = b.동아리 b
+ON a.코드 = b.코드
+

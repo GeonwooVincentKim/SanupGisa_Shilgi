@@ -1,0 +1,78 @@
+6. DML - JOIN
+- 1. JOIN
+  = 1. 2개 Relation 에서 연관된 튜플들을 결합하여, 하나의 새로운 릴레이션을 반환
+  = 2. 일반적으로 FROM 절에 기술, Relation 이 사용되는 곳 어디에서나 사용 가능
+  = 3. INNER JOIN & OUTER JOIN
+
+- 2. INNER JOIN
+  = 1. EQUI JOIN & NON-EQUI JOIN
+  = 2. 조건 없는 INNER JOIN -> CROSS JOIN (교차 조인) 과 동일한 결과
+    -> CROSS JOIN => Join하는 두 테이블에 있는 튜플들의 순서쌍
+
+  = 3. EQUI JOIN ('=')
+    -> 1. join 대상 테이블에서 공통 속성을 기준, '='(equal)
+    -> 2. 같은 값을 가지는 행을 연결하여 결과 생성하는 JOIN 방법 (중복 o)
+    -> 3. NATURAL JOIN => 중복된 속성 제거, 같은 속성 한 번만 표기하는 방법 (중복 x)
+    -> 4. JOIN 속성 => EQUI JOIN 에서 연결고리가 되는 공통 속성
+    -> 5. WHERE 절 이용
+       => SELECT [테이블명1.]속성명, [테이블명2.]속성명. '''
+          FROM 테이블명1, 테이블명2, ...
+	  WHERE 테이블명1.속성명 = 테이블명2.속성명;
+
+    -> 6. NATURAL JOIN 이용
+       => SELECT [테이블명1.]속성명, [테이블명2.]속성명, '''
+	  FROM 테이블명1 NATURAL JOIN 테이블명
+
+    -> 7. JOIN ~ USING 이용
+       => SELECT [테이블명1].속성명, [테이블명2].속성명, '''
+ 	  FROM 테이블명1 JOIN 테이블명2 USING (속성명);
+
+  = 4. NON-EQUI JOIN (>, <, <>, >=, <=)
+    -> 1. JOIN 조건에 '=' 조건 X, >, <, <>, >=, <= 연산자 사용하는 JOIN 방법
+    -> 2. SELECT [테이블명1].속성명, [테이블명2].속성명, '''
+	  FROM 테이블명1, 테이블명2, '''
+	  WHERE (NON-EQUI JOIN 조건);
+
+    -> 3. 예제
+       => 1. 학생 테이블 & 성적등급 테이블 JOIN
+       => 2. 각 학생의 '학번', '이름', '성적', '등급' 을 출력
+       => 3. SELECT 학번, 이름, 성적, 등급
+	     FROM 학생, 성적등급,
+	     WHERE 학생.성적 BETWEEN 성적등급.최저 AND 성적등급.최고;
+
+- 3. OUTER JOIN
+  <'+' 사용 시 INNER JOIN 과 동일한 형식으로 사용 가능)
+  = 1. LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN
+  = 2. LEFT OUTER JOIN (좌측항 NULL 처리)
+    -> 1. INNER JOIN 결과 구한 후
+    -> 2. 우측 항 Relation의 어떤 Tuple과도 안맞는 좌측 항 Relation tuple들에 NULL 값
+    -> 3. NULL 값 붙인 튜플들을 INNER JOIN 결과에 추가 (우측 Relation 에'+')
+    -> 4. SELECT [테이블명1].속성명, [테이블명2.]속성명, ...
+	  FROM 테이블명1 LEFT OUTER JOIN 테이블명2
+	  ON 테이블명1.속성명 = 테이블명2.속성명;
+
+    -> 5. SELECT [테이블명1]속성명, [테이블명2.]속성명,...
+	  FROM 테이블명1, 테이블명2
+	  WHERE 테이블명1.속성명 = 테이블명2.속성명(+);
+
+  = 3. RIGHT OUTER JOIN (우측항 NULL 처리)
+    -> 1. INNER JOIN 결과 구현
+    -> 2. 좌측항 Relation의 어떤 Tuple과도 안맞는 우측 항 Relation Tuple들에 Null 값
+    -> 3. NULL 값 붙인 튜플들을 INNER JOIN 결과에 추가 (좌측 Relation 에 '+')
+
+    -> 4. SELECT [테이블명1].속성명, [테이블명2].속성명, ...
+          FROM 테이블명1 RIGHT OUTER JOIN 테이블명2
+          ON 테이블명1.속성명 = 테이블명2.속성명;
+
+    -> 5. SELECT [테이블명1].속성명, [테이블명2].속성명, ...
+          FROM 테이블명1, 테이블명2
+          WHERE 테이블명1.속성명(+) = 테이블명2.속성명;
+
+  = 4. FULL OUTER JOIN
+    -> 1. LEFT OUTER JOIN + RIGHT OUTER JOIN
+    -> 2. INNER JOIN 결과 구현
+    -> 3. 좌측항 Relation의 Tuple에 대해 우측항 Relation Tuple 들에도 안맞는 Null 값
+    -> 4. SELECT [테이블명1].속성명, [테이블명2].속성명, ...
+	  FROM 테이블명1 FULL OUTER JOIN 테이블명2
+	  ON 테이블명1.속성명 = 테이블명2.속성명;
+
