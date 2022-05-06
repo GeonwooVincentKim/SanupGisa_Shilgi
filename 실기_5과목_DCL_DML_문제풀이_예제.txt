@@ -30,3 +30,47 @@ SET 학과번호 = 999
 WHERE 입학생수 >= 300;
 
 insert, update, select, delete
+
+
+<DML - SELECT 1>
+SELECT 학번, 이름
+FROM 학생
+WHERE 학년 IN (3, 4);
+
+200
+3
+1
+
+SELECT * FROM PRODUCT
+WHERE price IS NULL
+ORDER BY ASC;
+
+SELECT DISTINCT name
+FROM Shop
+WHERE id = (SELECT Shopid FROM Staff WHERE id = 10);
+
+SELECT * FROM 회원 WHERE 이름 LIKE '이%' ORDER BY 가입일 DESC;
+
+SELECT * FROM Sale where psale >= 10 AND psale <= 20;
+(SELECT * FROM Sale where psale BETWEEN 10 AND 20);
+
+SELECT DISTINCT 과목
+FROM 학생
+WHERE 학년 >= 3 AND WHERE 점수 >= 80;
+
+SELECT 학번, 이름, 결제여부
+FROM 학생정보, 결제, 신청정보
+WHERE 학생정보.학번 = 신청정보.학번
+AND 신청정보.신청번호 = 결제.신청정보
+AND 신청과목 = 'OpenGL';
+
+SELECT ID, NAME FROM CUSTOMER;
+SELECT DISTINCT GRADE FROM CUSTOMER;
+SELECT * FROM CUSTOMER ORDER BY DESC;
+SELECT NAME FROM CUSTOMER WHERE AGE IS NULL;
+SELECT NAME FROM CUSTOMER WHERE AGE IS NOT NULL;
+
+SELECT 사원명 FROM 회사원 WHERE 연락번호 IS NOT NULL;
+
+
+<DML - SELECT 2>
